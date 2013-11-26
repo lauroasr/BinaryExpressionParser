@@ -29,7 +29,7 @@ public final class Operator {
         } else if (operator == OR) {
             return valueA || valueB;
         } else if (operator == IMP) {
-            return !(valueA || valueB);
+            return !valueA || valueB;
         } else if (operator == XNOR) {
             return valueA == valueB;
         }

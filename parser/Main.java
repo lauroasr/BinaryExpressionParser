@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Expression expression;
+        Expression expression = null;
         
         try {
             expression = Expression.getExpressionFrom(scanner.nextLine());
@@ -14,6 +14,11 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
-        scanner.close();        
+        scanner.close();
+                
+        TruthTable truthTable = new TruthTable(expression, 'V', 'F');
+        System.out.println(truthTable);
+        System.out.println(truthTable.variables);
+        System.out.println(truthTable.variablesIndexes);
     }
 }

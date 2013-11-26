@@ -46,8 +46,7 @@ public class Expression {
         }
         
         Expression expression = new Expression();
-              
-        
+                      
         char operator = '\0';
         int operatorPosition = 0, operatorPrecedenceLevel = 0;       
         boolean hasFoundOperator = false, hasFoundPriority = false;

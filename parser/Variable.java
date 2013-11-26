@@ -1,8 +1,8 @@
 package parser;
 
-public class Variable {
+public class Variable {    
     public char letter;
-    public boolean value;
+    public boolean value;    
     
     public Variable(char letter) {
         this.letter = letter;
@@ -36,5 +36,5 @@ public class Variable {
     
     public static boolean isVariable(char c) {
         return Character.isLetter(c);
-    }
+    }  
 }
