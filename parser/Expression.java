@@ -1,5 +1,7 @@
 package parser;
 
+import java.util.ArrayList;
+
 public class Expression {
     public static final char PRIORITY_START = '(';
     public static final char PRIORITY_END = ')';
@@ -27,7 +29,7 @@ public class Expression {
             return expression.getValue();
         }
         return false;
-    }
+    }   
 
     public static String toStringBetween(Variable variable, Expression expression) {		
         if (variable != null) {
@@ -154,6 +156,22 @@ public class Expression {
         }
         
         return toStringBetween(variableA, expressionA).length() + 1;
+    }
+    
+    public ArrayList<Boolean> getValuesInOrder() {
+        ArrayList<Boolean> values = new ArrayList<>();
+        
+        if (expressionA != null) {
+            values.addAll(expressionA.getValuesInOrder());
+        }
+        
+        values.add(getValue());
+        
+        if (expressionB != null) {
+            values.addAll(expressionB.getValuesInOrder());
+        }
+        
+        return values;
     }
 
     public static boolean isExpressionValid(String s) {		

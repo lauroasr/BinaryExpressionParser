@@ -5,7 +5,9 @@ import java.util.ArrayList;
 public class TruthTable {    
     public Expression expression;        
     public ArrayList<Variable> variables;
-    public ArrayList<ArrayList<Integer>> variablesIndexes;
+    public ArrayList<ArrayList<Integer>> variablesIndexes;    
+    public ArrayList<Boolean> values;
+    public ArrayList<Integer> valuesIndex;
     
     public char trueRepresentation;
     public char falseRepresentation;
@@ -34,7 +36,19 @@ public class TruthTable {
                     variablesIndexes.get(i).add(j);
                 }
             }
-        }                              
+        }                      
+        
+        /* juntar esses dois loops 
+         * pois ambos procuram pelo index        
+         */
+        
+        valuesIndex = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            
+            if (Operator.isOperator(s.charAt(i))) {                    
+                valuesIndex.add(i);
+            }
+        }
     }
     
     public void findVariablesAt(Expression expression) {
@@ -60,7 +74,7 @@ public class TruthTable {
         return variables.get(variables.size() - 1);
     }
     
-    public String getLine(int lineNumber) {                              
+    public StringBuilder getLine(int lineNumber) {                              
         String binaryValues = Integer.toBinaryString(lineNumber);
                
         int bVIndex = binaryValues.length() - 1;
@@ -77,7 +91,7 @@ public class TruthTable {
                 variables.get(i).value = true;                
             }                       
         }
-        
+                       
         StringBuilder line = new StringBuilder();
         // coloca os valores das variáveis em line
         for (int i = 0; i < variablesIndexes.size(); i++) {
@@ -87,27 +101,37 @@ public class TruthTable {
                 while (line.length() <= indexes.get(j)) {
                     line.append(' ');
                 }
-                line.setCharAt(indexes.get(j), variables.get(i).value ? trueRepresentation : falseRepresentation);               
+                line.setCharAt(indexes.get(j), toCharRepresentation(variables.get(i).value));               
             }
         }
         
-        line.setCharAt(expression.getOperatorIndexAtString(), expression.getValue() ? trueRepresentation : falseRepresentation);
-               
-                
-        return line.toString();
+        values = expression.getValuesInOrder();
+        // coloca os valores das expressoes em line
+        for (int i = 0; i < valuesIndex.size(); i++) {
+            line.setCharAt(valuesIndex.get(i), toCharRepresentation(values.get(i)));
+        }
+        
+        return line;
+    }
+    
+    public char toCharRepresentation(boolean value) {
+        return value ? trueRepresentation : falseRepresentation;
     }
     
     public String toString() {
         updateVariablesAndIndexes();               
-        int numberOfLines = (int) Math.pow(2, variables.size());
+        int numberOfLines = (int) Math.pow(2, variables.size());                   
         
-        String s = new String();
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < numberOfLines; i++) {
-            s += getLine(i) + '\n';
+            s.append(getLine(i));           
+            
+            s.append('\n');
         }
-        return s;
-    }
-    
-    
-
+        
+        
+        
+        
+        return s.toString();
+    }   
 }
