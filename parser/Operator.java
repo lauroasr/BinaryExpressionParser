@@ -1,6 +1,6 @@
 package parser;
 
-public final class Operator {	
+public final class Operator {	    
     public static final char NOT = '!';
     public static final char AND = '*';
     public static final char XOR = 'x';
@@ -36,7 +36,7 @@ public final class Operator {
 
         throw new IllegalArgumentException("Operador binário inválido");
     }
-    
+
     public static boolean solve(char operator, boolean value) {     
         if (operator == NOT) {
             return !value;
@@ -44,7 +44,7 @@ public final class Operator {
         
         throw new IllegalArgumentException("Operador unário inválido");
     }
-    
+
     public static int getPrecedenceLevelOf(char operator) {
         if (operator == NOT) {
             return 1;

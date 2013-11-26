@@ -7,10 +7,6 @@ public class Variable {
     public Variable(char letter) {
         this.letter = letter;
     }
-
-    public String toString() {
-        return letter + "";
-    }    
     
     public static Variable getVariableFrom(String s) {      
         char letter = 0;
@@ -33,8 +29,12 @@ public class Variable {
         }        
         return new Variable(letter);
     }
-    
+
     public static boolean isVariable(char c) {
         return Character.isLetter(c);
+    }
+    
+    public String toString() {
+        return letter + "";
     }  
 }
