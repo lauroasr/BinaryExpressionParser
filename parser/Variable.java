@@ -23,7 +23,7 @@ public class Variable {
                 continue;
             }
             
-            if (Character.isLetter(s.charAt(i))) {
+            if (isVariable(s.charAt(i))) {
                 if (foundVar) return null;                
                 letter = s.charAt(i);
                 foundVar = true;
@@ -32,5 +32,9 @@ public class Variable {
             }
         }        
         return new Variable(letter);
+    }
+    
+    public static boolean isVariable(char c) {
+        return Character.isLetter(c);
     }
 }

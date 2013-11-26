@@ -48,13 +48,13 @@ public class Expression {
         Expression expression = new Expression();
               
         
-        char operator = 0;
+        char operator = '\0';
         int operatorPosition = 0, operatorPrecedenceLevel = 0;       
         boolean hasFoundOperator = false, hasFoundPriority = false;
         
         do { 
             int numberOfPriorityStartsFound = 0, numberOfPriorityEndsFound = 0;
-            int mainPriorityStartPosition = 0, mainPriorityEndPosition = 0;
+            int mainPriorityStartIndex = 0, mainPriorityEndIndex = 0;
             
             for (int i = 0, length = s.length(); i < length; i++) {
                 if (s.charAt(i) == ' ') {
@@ -63,7 +63,7 @@ public class Expression {
                 
                 if (s.charAt(i) == PRIORITY_START) {
                     if (numberOfPriorityStartsFound == 0) {
-                        mainPriorityStartPosition = i;
+                        mainPriorityStartIndex = i;
                         hasFoundPriority = true;
                     }                    
                     numberOfPriorityStartsFound++;
@@ -76,7 +76,7 @@ public class Expression {
                         numberOfPriorityEndsFound++;
                         
                         if (numberOfPriorityStartsFound == numberOfPriorityEndsFound) {
-                            mainPriorityEndPosition = i;
+                            mainPriorityEndIndex = i;
                         }
                     } else {
                         continue;
@@ -99,7 +99,7 @@ public class Expression {
             if (!hasFoundOperator) {
                 if (hasFoundPriority) {
                     // tenta novamente com uma nova String (sem parênteses)                    
-                    s = s.substring(mainPriorityStartPosition + 1, mainPriorityEndPosition);
+                    s = s.substring(mainPriorityStartIndex + 1, mainPriorityEndIndex);
                     System.out.println("hasn't found any operator, but found priority. trying with " + s);
                     hasFoundPriority = false;
                 } else {
@@ -110,7 +110,7 @@ public class Expression {
         
         if (!hasFoundOperator) {
             System.out.println("hasn't found any operator. " + s);
-            expression.variableB = Variable.getVariableFrom(s);
+            expression.variableA = Variable.getVariableFrom(s);
             return expression;
         }
         
@@ -126,10 +126,9 @@ public class Expression {
                 expression.expressionA = getExpressionFrom(operandA);
             }
         }
-        
-        // determina a variável ou expressão B
+                
         operandB = s.substring(operatorPosition + 1);
-        
+        // determina a variável ou expressão B
         expression.variableB = Variable.getVariableFrom(operandB);
         if (expression.variableB == null) {
             expression.expressionB = getExpressionFrom(operandB);
@@ -149,6 +148,14 @@ public class Expression {
         
         return Operator.solve(operator, getValueBetween(variableA, expressionA), getValueBetween(variableB, expressionB));        
     }
+    
+    public int getOperatorIndexAtString() {
+        if (operator == '\0' || Operator.isUnaryOperator(operator)) {
+            return 0;
+        }
+        
+        return toStringBetween(variableA, expressionA).length() + 1;
+    }
 
     public static boolean isExpressionValid(String s) {		
         boolean expectingExpOrVar = true;
@@ -166,7 +173,7 @@ public class Expression {
                 if (s.charAt(i) == PRIORITY_START) {
                     priorityExpressions++;
                     continue;
-                } else if (Character.isLetter(s.charAt(i))) {
+                } else if (Variable.isVariable(s.charAt(i))) {
                     expectingExpOrVar = false;
                     expectingBinaryOperator = true;
 
@@ -214,12 +221,20 @@ public class Expression {
         return true;
     }
 
-    public String toString() {					
-        if (Operator.isUnaryOperator(operator)) {
-            return operator + toStringBetween(variableB, expressionB);
+    public String toString() {
+        try {        
+            if (operator == '\0') {
+                return toStringBetween(variableB, expressionB);
+            }
+            
+            if (Operator.isUnaryOperator(operator)) {
+                return operator + toStringBetween(variableB, expressionB);
+            }
+            return toStringBetween(variableA, expressionA) +
+                   " " + operator + " " + 
+                   toStringBetween(variableB, expressionB);
+        } catch (IllegalArgumentException e) {
+            throw new NullPointerException("A expressão não possui nenhum operando");
         }
-        return toStringBetween(variableA, expressionA) +
-               " " + operator + " " + 
-               toStringBetween(variableB, expressionB);
-    }   
+    }     
 }
