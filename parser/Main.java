@@ -17,7 +17,7 @@ public class Main {
         }
         catch (IllegalArgumentException e) {
             for (int i = 0; i < Expression.errorIndex; i++) {
-                System.out.print(" ");
+                System.err.print(" ");
             }
             System.err.println("^");
 
