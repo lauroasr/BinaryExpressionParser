@@ -256,7 +256,7 @@ public class Expression {
     public String toString() {
         try {
             if (operator == '\0') {
-                return toStringBetween(variableB, expressionB);
+                return toStringBetween(variableA, expressionA);
             }
 
             if (Operator.isUnaryOperator(operator)) {

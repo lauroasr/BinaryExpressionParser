@@ -17,7 +17,7 @@ public class TruthTable {
     }
 
     public TruthTable(Expression expression, char trueRepresentation,
-            char falseRepresentation) {
+                      char falseRepresentation) {
         this.expression = expression;
         this.trueRepresentation = trueRepresentation;
         this.falseRepresentation = falseRepresentation;

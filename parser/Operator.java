@@ -1,10 +1,11 @@
+
 package parser;
 
-public final class Operator {	    
+public final class Operator {
     public static final char NOT = '!';
     public static final char AND = '*';
     public static final char XOR = 'x';
-    public static final char OR = '+';           
+    public static final char OR = '+';
     public static final char IMP = '-';
     public static final char XNOR = '=';
 
@@ -14,7 +15,7 @@ public final class Operator {
                symbol == XOR ||
                symbol == OR ||
                symbol == IMP ||
-               symbol == XNOR;               
+               symbol == XNOR;
     }
 
     public static boolean isUnaryOperator(char symbol) {
@@ -37,11 +38,11 @@ public final class Operator {
         throw new IllegalArgumentException("Operador binário inválido");
     }
 
-    public static boolean solve(char operator, boolean value) {     
+    public static boolean solve(char operator, boolean value) {
         if (operator == NOT) {
             return !value;
         }
-        
+
         throw new IllegalArgumentException("Operador unário inválido");
     }
 
@@ -59,7 +60,7 @@ public final class Operator {
         } else if (operator == XNOR) {
             return 6;
         }
-        
+
         throw new IllegalArgumentException("Operador inválido");
-    }    
+    }
 }
